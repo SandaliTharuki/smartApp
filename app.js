@@ -18,3 +18,9 @@ app.get('/', function (req, res) {
   app.get('/s', function (req, res) {
     res.send('hello ')
   })
+
+  app.get('/a', function (req, res) {
+    res.send('hello ')
+  })
+
+  
