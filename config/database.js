@@ -1,3 +1,4 @@
 module.exports = {
-    "database":"mongodb://localhost:27017/app"
+    "database":"mongodb://localhost:27017/app",
+    "secret":"myapplicationsecretkey"
 };
