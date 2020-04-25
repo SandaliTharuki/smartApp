@@ -7,10 +7,18 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const config = require('../config/database');
 const passport = require('passport');
+const secretkey = "myapplicationsecretkey";
 
-router.post("/register",function(req,res){
+module.exports = {
+"secret": secretkey,
+}
+router.get('/api', function(req,res){
+  res.json({
+    message:'Welcome to the API'
+  });
+});
   
-
+router.post('/api/register',function(req,res){
 
   const newUser = new User({
 
@@ -18,7 +26,7 @@ router.post("/register",function(req,res){
     name:req.body.name,
     email:req.body.email,
     password:req.body.password
-
+ 
   });
 
   User.saveUser(newUser,function(err,user) {
@@ -26,7 +34,7 @@ router.post("/register",function(req,res){
       res.json({state:false,msg:"Data not inserted"});
     }
     if(user){
-      res.json({state:true,msg:"Data instered"})   ;
+      res.json({state:true,msg:"Data insertered"})   ;
     }
   
 
@@ -36,7 +44,7 @@ router.post("/register",function(req,res){
 });   
   
  
-router.post("/login",function (req,res) {
+router.post('/api/login',function (req,res) {
   
   const email = req.body.email;
   const password = req.body.password;
@@ -53,7 +61,7 @@ router.post("/login",function (req,res) {
 
           if (match) {
             
-            const token = jwt.sign(user.toJSON(), config.secret,{expiresIn:86400});
+            const token = jwt.sign({user}, secretkey,{expiresIn:'86400ms'});  
             res.json(
               {
                   state:true,
@@ -64,11 +72,11 @@ router.post("/login",function (req,res) {
                     username:user.username,
                     email:user.email
                   }
-              }
-            )
-
+              });
+          
           
         }
+        
 
       });
 
@@ -77,12 +85,43 @@ router.post("/login",function (req,res) {
 
 });
 
+function verifyToken (req, res, next) {
 
-router.post('/profile',passport.authenticate('jwt', { session: false  }),function(req, res) {
-  console.log(req)
-        res.json({user:req.user});
-      
+  const bearerHeader = req.headers['authorization'];
+
+  if(typeof bearerHeader != 'undefined' ){
+
+  const bearer = bearerHeader.split(' ')  ;
+
+  const bearerToken = bearer[1];
+
+  req.token = bearerToken;
+
+  next();
+
+  }else {
+    res.json({
+      message: "Forbidden"
+    });
+  }
+}
+
+router.post('/api/profile',verifyToken,function(req, res) {
+  jwt.verify(req.token, secretkey, function(err,authData){
+    if(err){
+      res.json({
+        message: 'forbidden'
       });
-      // , passport.authenticate('jwt', { session: false })
+    }else{
+      res.json({
+        message: "Log in successfully",
+        authData
+      })
+        }
+    
+    });
+  });
+
+    
 
 module.exports = router ;

@@ -4,8 +4,36 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport'); 
 
+
 const app = express();
 const port  = process.env.PORT ||3000;
+
+/*app.get('/api', function(req,res){
+  res.json({
+    message: 'Wlcome to the API'
+  });
+});
+
+app.post('/api/posts', function(req,res){
+res.json({
+  message: 'Post created'
+});
+});
+
+app.post('/api/login', function(req,res){
+
+  const user = {
+    id: 1,
+    username: 'sandali',
+    email:'sandali@gmail.com'
+  }
+
+ const token = jwt.sign({user}, 'secretkey', function (err, roken){
+    res.json({
+      token
+    });
+  });
+});*/
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
