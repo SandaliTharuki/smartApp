@@ -26,7 +26,7 @@ router.post('/api/register',function(req,res){
     name:req.body.name,
     email:req.body.email,
     password:req.body.password
- 
+    
   });
 
   User.saveUser(newUser,function(err,user) {
