@@ -9,6 +9,8 @@ const config = require('../config/database');
 const passport = require('passport');
 const secretkey = "myapplicationsecretkey";
 
+
+
 module.exports = {
 "secret": secretkey,
 }
@@ -18,7 +20,7 @@ router.get('/api', function(req,res){
   });
 });
   
-router.post('/api/register',function(req,res){
+router.post('/register',function(req,res){
 
   const newUser = new User({
 

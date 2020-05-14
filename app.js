@@ -3,43 +3,27 @@ const path =require('path');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport'); 
+const cors = require('cors');
 
 
 const app = express();
 const port  = process.env.PORT ||3000;
 
-/*app.get('/api', function(req,res){
-  res.json({
-    message: 'Wlcome to the API'
-  });
-});
 
-app.post('/api/posts', function(req,res){
-res.json({
-  message: 'Post created'
-});
-});
 
-app.post('/api/login', function(req,res){
 
-  const user = {
-    id: 1,
-    username: 'sandali',
-    email:'sandali@gmail.com'
-  }
+app.use(cors());
 
- const token = jwt.sign({user}, 'secretkey', function (err, roken){
-    res.json({
-      token
-    });
-  });
-});*/
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(passport.initialize());
 app.use(passport.session()); 
 require('./config/passport') (passport);
+
+
+  
+
 
 const config = require('./config/database');
 const user = require('./routes/users');
